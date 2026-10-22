@@ -1,0 +1,35 @@
+{
+  "enabled": true,
+  "timezone": "Asia/Kolkata",
+  "base_url": "https://hr-orbit.azalio.io/backend",
+  "_comment_endpoints": "VERIFY these against your browser DevTools > Network tab. Your pasted curls were truncated, so these are best guesses. Fix path/method if a run returns 404/405.",
+  "endpoints": {
+    "login": {
+      "path": "/login",
+      "method": "POST"
+    },
+    "checkin": {
+      "path": "/attendance/api/v1/addAttendance",
+      "method": "POST"
+    },
+    "checkout": {
+      "path": "/attendance/api/v1/addAttendance",
+      "method": "PATCH"
+    }
+  },
+  "work_location": "Office",
+  "work_office": "Azalio Technologies - Mohali",
+  "_comment_gating": "Control WHEN it runs.",
+  "skip_weekends": true,
+  "skip_dates": [],
+  "only_dates": [],
+  "_comment_windows": "Local (IST) time windows. The script picks a random moment inside these.",
+  "checkin_window": {
+    "start": "09:50",
+    "end": "10:10"
+  },
+  "checkout_window": {
+    "start": "19:00",
+    "end": "19:30"
+  }
+}

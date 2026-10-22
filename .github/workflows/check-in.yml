@@ -1,0 +1,41 @@
+name: Check-in
+
+on:
+  schedule:
+    # 04:20 UTC = 09:50 IST, Monday–Friday. The script then waits a random
+    # amount so the real punch lands somewhere in 09:50–10:10 IST.
+    - cron: '20 4 * * 1-5'
+  workflow_dispatch:          # lets you run it by hand from the Actions tab
+    inputs:
+      dry_run:
+        description: 'Plan only, do not call the API'
+        type: boolean
+        default: false
+      no_sleep:
+        description: 'Punch immediately (skip the random wait)'
+        type: boolean
+        default: false
+
+# Stop two runs from overlapping.
+concurrency:
+  group: check-in
+  cancel-in-progress: false
+
+jobs:
+  check-in:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40       # must exceed the window length + a little overhead
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests tzdata
+      - name: Punch in
+        env:
+          HRORBIT_USERNAME: ${{ secrets.HRORBIT_USERNAME }}
+          HRORBIT_PASSWORD: ${{ secrets.HRORBIT_PASSWORD }}
+        run: >
+          python scripts/punch.py --action in
+          ${{ (github.event_name == 'workflow_dispatch' && inputs.dry_run)  && '--dry-run' || '' }}
+          ${{ (github.event_name == 'workflow_dispatch' && inputs.no_sleep) && '--no-sleep' || '' }}
