@@ -183,12 +183,25 @@ def main():
     ap.add_argument("--config", default="config.json")
     ap.add_argument("--dry-run", action="store_true", help="Plan only; never call the API")
     ap.add_argument("--no-sleep", action="store_true", help="Skip the random wait and punch now")
+    ap.add_argument("--login-only", action="store_true",
+                    help="Just log in to verify credentials; do NOT punch. Ignores gating/window.")
     args = ap.parse_args()
 
     cfg = load_config(args.config)
     tz = ZoneInfo(cfg["timezone"])
     now = datetime.now(tz)
     log(f"action={args.action}  now={now:%Y-%m-%d %H:%M:%S %Z}  weekday={now.strftime('%A')}")
+
+    # --login-only: verify credentials and token discovery, then stop. No punch.
+    if args.login_only:
+        username = os.environ.get("HRORBIT_USERNAME")
+        password = os.environ.get("HRORBIT_PASSWORD")
+        if not username or not password:
+            raise SystemExit("Missing HRORBIT_USERNAME / HRORBIT_PASSWORD environment variables.")
+        session = requests.Session()
+        token = login(session, cfg, username, password)
+        log("✅ LOGIN OK — credentials valid and token found. (No punch performed.)")
+        return
 
     ok, reason = should_run_today(cfg, now)
     log(f"gating: {'RUN' if ok else 'SKIP'} — {reason}")

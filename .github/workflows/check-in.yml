@@ -15,6 +15,10 @@ on:
         description: 'Punch immediately (skip the random wait)'
         type: boolean
         default: false
+      login_only:
+        description: 'Only test login, do NOT punch in'
+        type: boolean
+        default: false
 
 # Stop two runs from overlapping.
 concurrency:
@@ -37,5 +41,6 @@ jobs:
           HRORBIT_PASSWORD: ${{ secrets.HRORBIT_PASSWORD }}
         run: >
           python scripts/punch.py --action in
-          ${{ (github.event_name == 'workflow_dispatch' && inputs.dry_run)  && '--dry-run' || '' }}
-          ${{ (github.event_name == 'workflow_dispatch' && inputs.no_sleep) && '--no-sleep' || '' }}
+          ${{ (github.event_name == 'workflow_dispatch' && inputs.dry_run)    && '--dry-run'    || '' }}
+          ${{ (github.event_name == 'workflow_dispatch' && inputs.no_sleep)   && '--no-sleep'   || '' }}
+          ${{ (github.event_name == 'workflow_dispatch' && inputs.login_only) && '--login-only' || '' }}
