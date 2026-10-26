@@ -2,9 +2,10 @@ name: Check-out
 
 on:
   schedule:
-    # 13:30 UTC = 19:00 IST, Monday–Friday. The script then waits a random
-    # amount so the real punch lands somewhere in 19:00–19:30 IST.
-    - cron: '30 13 * * 1-5'
+    # 13:00 UTC = 18:30 IST, Monday–Friday — 30 min before the window so a
+    # delayed GitHub run still starts in time. The script waits until a random
+    # moment in 19:00–19:30 IST (config.json checkout_window) and punches then.
+    - cron: '0 13 * * 1-5'
   workflow_dispatch:
     inputs:
       dry_run:
@@ -23,7 +24,7 @@ concurrency:
 jobs:
   check-out:
     runs-on: ubuntu-latest
-    timeout-minutes: 50       # checkout window is 30 min wide
+    timeout-minutes: 75       # 30 min lead + 30 min window + grace/overhead
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
