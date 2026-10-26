@@ -21,11 +21,11 @@
   "work_office": "Azalio Technologies - Mohali",
   "_comment_gating": "Control WHEN it runs.",
   "skip_weekends": true,
-  "skip_dates": [],
+  "skip_dates": ["2026-11-06", "2026-11-10", "2026-11-11", "2026-11-20", "2026-11-23", "2026-11-24", "2026-11-25"],
   "only_dates": [],
   "_comment_windows": "Local (IST) time windows. The script picks a random moment inside these.",
   "checkin_window": {
-    "start": "09:50",
+    "start": "09:40",
     "end": "10:10"
   },
   "checkout_window": {
