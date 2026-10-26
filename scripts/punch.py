@@ -27,7 +27,7 @@ from zoneinfo import ZoneInfo
 
 import requests
 
-GRACE = timedelta(minutes=15)  # if GitHub delays the run past window end, still punch within this grace
+GRACE = timedelta(0)  # if GitHub delays the run past window end, still punch within this grace
 
 
 def log(msg):
