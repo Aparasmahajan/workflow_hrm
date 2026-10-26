@@ -1,11 +1,9 @@
 name: Check-out
 
 on:
-  schedule:
-    # 13:00 UTC = 18:30 IST, Monday–Friday — 30 min before the window so a
-    # delayed GitHub run still starts in time. The script waits until a random
-    # moment in 19:00–19:30 IST (config.json checkout_window) and punches then.
-    - cron: '0 13 * * 1-5'
+  # No `schedule:` — GitHub's cron ran 4–6 h late. cron-job.org calls the
+  # workflow_dispatch API at 18:30 IST Mon–Fri instead; the script then waits
+  # until a random moment in 19:00–19:30 IST (config.json checkout_window).
   workflow_dispatch:
     inputs:
       dry_run:
