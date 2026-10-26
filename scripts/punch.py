@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+
 """
 Auto check-in / check-out for the HR-Orbit attendance portal.
 
