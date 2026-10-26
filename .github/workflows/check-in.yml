@@ -1,12 +1,10 @@
 name: Check-in
 
 on:
-  schedule:
-    # 03:40 UTC = 09:10 IST, Monday–Friday — 30 min before the window so a
-    # delayed GitHub run still starts in time. The script waits until a random
-    # moment in 09:40–10:10 IST (config.json checkin_window) and punches then.
-    - cron: '40 3 * * 1-5'
-  workflow_dispatch:          # lets you run it by hand from the Actions tab
+  # No `schedule:` — GitHub's cron ran 4–6 h late. cron-job.org calls the
+  # workflow_dispatch API at 09:10 IST Mon–Fri instead; the script then waits
+  # until a random moment in 09:40–10:10 IST (config.json checkin_window).
+  workflow_dispatch:          # also lets you run it by hand from the Actions tab
     inputs:
       dry_run:
         description: 'Plan only, do not call the API'
