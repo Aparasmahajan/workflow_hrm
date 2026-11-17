@@ -26,7 +26,7 @@
   "_comment_windows": "Local (IST) time windows. The script picks a random moment inside these.",
   "checkin_window": {
     "start": "10:15",
-    "end": "10:40"
+    "end": "10:30"
   },
   "checkout_window": {
     "start": "19:30",
